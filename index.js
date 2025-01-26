@@ -1,72 +1,91 @@
-                        //declaring two new variables in the global scope which holds player and computer score
 let humanScore = 0;
 let computerScore = 0;
+let humanSelection = "";
 
-                        //function that gets human choice, either rock paper os scissors
- function getHumanChoice() {
-    let human = prompt("Choose either rock, paper or scissors: ").toLowerCase();
-    if(human === "rock") {
-        human = "rock";
-    } else if(human === "paper") {
-         human = "paper";
-    } else if(human === "scissors") {
-        human = "scissors";
-    }
-     return human;
- }
+const resu = document.querySelector("#rps");
+const result = document.createElement("h3");
+
+const humanpoints = document.createElement("p");
+const computerPoints = document.createElement("p");
+
+const gameWinner = document.createElement("h1");
+
+
+const rock2 = document.querySelector("#rock1");
+rock2.addEventListener("click", () => {
+    humanSelection = "rock";
+    playRound();
+    currentScore();
+    winner();
+})
+
+const paper2 = document.querySelector("#paper1");
+paper2.addEventListener("click", () => {
+    humanSelection = "paper";
+    playRound();
+    currentScore();
+    winner();
+})
+
+const scissors2 = document.querySelector("#scissors1");
+scissors2.addEventListener("click", () => {
+    humanSelection = "scissors";
+    playRound();
+    currentScore();
+    winner();
+})
+
                         //function that gets computer choice by generating a random number from 0-2, then based of the number sets computer choice as rock paper os scissors
 function getComputerChoice() {
     let computer = Math.floor(Math.random() * 3);
+
     if(computer === 0) {
-        computer = "rock";
+        return "rock";
     } else if(computer === 1) {
-        computer = "paper";
-    } else if(computer === 2) {
-        computer = "scissors";
-        
+        return "paper";
+    } else {
+        return "scissors";
     }
-    return computer;
 }
 
-                        //function that plays one round of rock paper scissors and adds accordingly point to human or computer
+                        //function that plays one round of rock paper scissors and adds accordingly point to either human or computer
 function playRound() {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
+    let computerSelection = getComputerChoice();
 
-    if(humanSelection === "rock") {
-        if(computerSelection === "rock") {
-            alert("Draw!");
-        } else if(computerSelection === "paper") {
-            computerScore++;
-            alert("You loose!");
-        } else {humanScore++; alert("You win!")}
-    } else if(humanSelection === "paper") {
-        if(computerSelection === "paper") {
-            alert("Draw");
-        } else if(computerSelection === "rock") {
-            humanScore++
-            alert("You win!")
-        } else {computerScore++; alert("You loose!")}
-    } else if(humanSelection === "scissors") {
-        if(computerSelection === "scissors") {
-            alert("Draw!");
-        } else if(computerSelection === "rock") {
-            computerScore++;
-            alert("You loose!")
-        } else {humanScore++; alert("You win!")}
-    }
-}
-                        //function to play five rounds of rock paper scissors, calls the playRound() function inside a loop that goes five times and then based of the score after 5 rounds declare a winner
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        playRound();
-    }
-
-    if(humanScore > computerScore) {
-        alert("Player wins!")
-    } else if (computerScore > humanScore) {
-        alert("Computer wins!")
-    } else {alert("Its a draw!")}
+    if(humanSelection === computerSelection) {
+        result.textContent = "Draw!";
+    } else if((humanSelection === "rock") && (computerSelection === "scissors")) {
+        result.textContent = "Win!";
+        humanScore++;
+    } else if((humanSelection === "paper") && (computerSelection === "rock")) {
+        result.textContent = "Win!";
+        humanScore++;
+    } else if((humanSelection === "scissors") && (computerSelection === "paper")) {
+        result.textContent = "Win!";
+        humanScore++;
+    } else {
+        result.textContent = "Loose!";
+        computerScore++;
+    } resu.appendChild(result);
 }
 
-playGame();
+function currentScore() {
+    humanpoints.textContent = "Your current score: " + humanScore;
+    resu.appendChild(humanpoints);
+    computerPoints.textContent = "Current computer score: " + computerScore;
+    resu.appendChild(computerPoints);
+}
+
+function winner() {
+    if(humanScore === 5) {
+        gameWinner.textContent = "You are the winner!"
+        resu.appendChild(gameWinner);
+        humanScore = 0;
+        computerScore = 0;
+    } else if(computerScore === 5) { 
+        gameWinner.textContent = "Computer wins!";
+        resu.appendChild(gameWinner);
+        humanScore = 0;
+        computerScore = 0;
+    }
+}
