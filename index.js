@@ -87,5 +87,7 @@ function winner() {
         resu.appendChild(gameWinner);
         humanScore = 0;
         computerScore = 0;
+    } else {
+        gameWinner.textContent = " ";
     }
 }
